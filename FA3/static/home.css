@@ -34,7 +34,6 @@ select {
     box-sizing: border-box;
 }
 
-/* Adjustments for the gender section */
 .gender-section {
     display: flex;
     align-items: center;
@@ -42,7 +41,7 @@ select {
 }
 
 input[type="radio"] {
-    margin-right: 5px;
+    margin-right: 0px;
     vertical-align: middle;
 }
 
