@@ -1,0 +1,60 @@
+#userData {
+    border: 1px solid teal;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+}
+
+#userData h2 {
+    color: teal;
+    text-align: center;
+}
+
+#userData p {
+    margin: 5px 0;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+/* Adjustments for the gender section */
+.gender-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+input[type="radio"] {
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+input[type="submit"] {
+    background-color: teal;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #008080;
+}
