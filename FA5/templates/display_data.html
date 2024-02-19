@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Display Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(57, 151, 151);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: teal;
+            width: 300px;
+            text-align: center;
+            padding: 20px;
+        }
+
+        p {
+            margin: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <p><strong>First Name:</strong> {{ first_name }}</p>
+        <p><strong>Last Name:</strong> {{ last_name }}</p>
+        <p><strong>Email:</strong> {{ email }}</p>
+        <p><strong>Favorite Food:</strong> {{ favorite_food }}</p>
+    </div>
+</body>
+
+</html>

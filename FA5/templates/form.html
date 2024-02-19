@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: teal;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;/
+    }
+
+    form {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+    }
+
+    label,
+    input {
+        margin-bottom: 16px;
+        display: block;
+    }
+
+    input {
+        /* calc() Subtracts the second operand from the first operand */
+        width: calc(100% - 16px);
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        background-color: teal;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="container">
+        <h1>Form</h1>
+        <form method="post" action="/">
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" required><br>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" required><br>
+
+            <label for="email">Email:</label>
+            <input type="email" name="email" required><br>
+
+            <label for="favorite_food">Favorite Food:</label>
+            <input type="text" name="favorite_food" required><br>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+
+</html>
