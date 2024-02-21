@@ -6,6 +6,7 @@ app.secret_key = 'mysecretkey'
 
 # https://www.geeksforgeeks.org/how-to-use-flask-session-in-python-flask/
 # https://stackoverflow.com/questions/52620992/how-can-i-make-a-non-permanent-session-in-flask
+
 @app.route('/')
 def index():
     session['counter'] = session.get('counter', 0)
