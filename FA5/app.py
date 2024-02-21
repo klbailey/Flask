@@ -4,7 +4,7 @@ app = Flask(__name__)
 # Set a secret key for session security
 app.secret_key = 'secret_key'  
 
-# Root URL GET renders form.html, POST stores form data in session/redirects to display_data endpoint
+# Root URL GET renders form.html, POST stores form data in session/redirects to display_data endpoint.
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':

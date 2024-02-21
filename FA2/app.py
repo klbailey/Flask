@@ -38,7 +38,6 @@ def submit():
         'email': email,
         'favoriteFood': favoriteFood
     }
-
     # Get separate HTMl page with submitted data
     return render_template('formSubmit.html', formData=formData)
 

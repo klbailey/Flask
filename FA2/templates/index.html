@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Information</title>
+    <!-- Add a style block to apply CSS -->
+    <!-- Add a style block to apply CSS -->
+    <style>
+        ul {
+            list-style-type: none !important;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -32,7 +44,18 @@
     </form>
 
     <h1>Numbers and Odd/Even</h1>
-
+    <!-- Create for loop pringing even/odd for 1-10 -->
+    <ul>
+        {% for number in range(1, 11) %}
+        <li>
+            {% if number % 2 == 0 %}
+            <h3>{{ number }} - even</h3>
+            {% else %}
+            <h3>{{ number }} - odd</h3>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
 
 
 </body>

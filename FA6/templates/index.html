@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Assignment 6</title>
+</head>
+
+<body>
+    <h1>Counter {{ counter }}</h1><br>
+    <!-- No need to increment counter on page load -->
+    <form method="post" action="{{ url_for('addTwo') }}">
+        <button type="submit">Add Two</button>
+    </form>
+    <form method="post" action="{{ url_for('reset') }}">
+        <button type="submit">Reset</button>
+    </form>
+</body>
+
+</html>
