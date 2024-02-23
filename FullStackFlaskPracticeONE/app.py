@@ -12,9 +12,9 @@ app.config['SECRET_KEY'] = 'secret'
 
 # Set config variable so app knows where database is; using SQLite sqlite:///filename
 # Specify the absolute path to the instance folder and site.db file
-instance_path = os.path.join(os.getcwd(), 'instance')
+instance_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance')
 db_path = os.path.join(instance_path, 'site.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 
 # Complete initialization (instance) create object of SQLAlchemy class; we have to provide our
 # appliation as a parameter to its constructor
