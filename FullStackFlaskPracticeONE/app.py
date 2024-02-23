@@ -124,11 +124,14 @@ def login():
     form = LoginForm()
     # Check to see if data is valid for the form using flash message/alert
     if form.validate_on_submit():
-        if form.username.data == 'admin@blog.com' and form.password.data == "password":
-           flash(f"Welcome {form.username.data}!", 'success')
-           return redirect(url_for('home'))
+        # Query the database to find a user with the provided username
+        user = User.query.filter_by(username=form.username.data).first()
+        # Check if the user exists and if the password is correct
+        if user and user.password == form.password.data:
+            flash(f"Welcome {form.username.data}!", 'success')
+            return redirect(url_for('home'))
         else:
-            flash('Login Unsuccessful Check username and password.', 'danger')
+            flash('Login Unsuccessful. Check username and password.', 'danger')
     return render_template('login.html', title='Login', form=form)
 
 # New route to query the database
