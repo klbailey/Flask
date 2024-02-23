@@ -3,9 +3,16 @@ from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 # import forms import RegistrationForm, LoginForm
 from forms import RegistrationForm, LoginForm
+from flask_login import logout_user, login_user, current_user
+from flask_login import LoginManager
 import os
 
 app = Flask(__name__)
+login_manager = LoginManager(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 # Set secret key
 app.config['SECRET_KEY'] = 'secret'
@@ -39,6 +46,23 @@ class User(db.Model):
     # repr method how our object is printed whenever we print it out
     def __repr__(self):
         return f"User('{self.firstName}', '{self.lastName}', '{self.username}', '{self.email}', '{self.image_file}')"
+    # Flask-Login methods
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
+    
+# Add user loader function
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -132,6 +156,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         # Check if the user exists and if the password is correct
         if user and user.password == form.password.data:
+            login_user(user, remember=form.remember.data)
             flash(f"Welcome {form.username.data}!", 'success')
             return redirect(url_for('home'))
         else:
@@ -154,6 +179,11 @@ def view_posts():
         print(post)
     return 'Check your terminal for the list of posts.'
 
+@app.route('/logout')
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     with app.app_context():
