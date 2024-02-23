@@ -1,8 +1,9 @@
 from datetime import datetime
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 # import forms import RegistrationForm, LoginForm
 from forms import RegistrationForm, LoginForm
+import os
 
 app = Flask(__name__)
 
@@ -10,7 +11,10 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
 
 # Set config variable so app knows where database is; using SQLite sqlite:///filename
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+# Specify the absolute path to the instance folder and site.db file
+instance_path = os.path.join(os.getcwd(), 'instance')
+db_path = os.path.join(instance_path, 'site.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/site.db'
 
 # Complete initialization (instance) create object of SQLAlchemy class; we have to provide our
 # appliation as a parameter to its constructor
@@ -30,7 +34,7 @@ class User(db.Model):
     password = db.Column(db.String(60), nullable=False)
     #post attribute has relationship to post model; backref like adding another column
     #when we have a post we can use author attribute to get user who created post
-    #lazy defines when SQLAlchemy loads the data from the dataabase in one go
+    #lazy defines when SQLAlchemy loads the data from the database in one go
     posts = db.relationship('Post', backref='author', lazy=True)
     # repr method how our object is printed whenever we print it out
     def __repr__(self):
@@ -49,11 +53,9 @@ class Post(db.Model):
 
 # Initialize database within the app context for proper handling of database sessions
 # The model just created will be created in database
+# with app.app_context():
+#     db.create_all()
 
-print("creating tables...")
-with app.app_context():
-    db.create_all()
-print("Tables created")
 
 # List of dictionaries each dictionary represents blog post
 posts = [
@@ -73,10 +75,17 @@ posts = [
 
 @app.route('/')
 def home():
-    return render_template('home.html', posts=posts)
+    # Get the newly created user id from the URL parameters
+    new_user_id = request.args.get('new_user_id')
+    new_user = None
+    
+    if new_user_id:
+        # Retrieve the user from the database based on the ID
+        new_user = User.query.get(new_user_id)
+    return render_template('home.html', posts=posts, new_user=new_user)
 
 @app.route('/about')
-def about():
+def about(): 
     return render_template('about.html', title='About')
 
 # Registration Route
@@ -86,9 +95,26 @@ def register():
     form = RegistrationForm()
     # Check to see if post data is valid for the form using flash message/alert
     if form.validate_on_submit():
+        # Create a new User instance with data from the form
+        new_user = User(
+            firstName=form.firstName.data,
+            lastName=form.lastName.data,
+            username=form.username.data,
+            email=form.email.data,
+            password=form.password.data
+        )
+        # Add the new user to the database
+        db.session.add(new_user)
+        db.session.commit()
+
         flash(f'Account created for {form.username.data}!', 'success')
-        #direct to new page
-        return redirect(url_for('home'))
+        
+        # Retrieve the ID of the newly created user
+        new_user_id = new_user.id
+
+        #direct to new page with newly created user id data
+        return redirect(url_for('home', new_user_id=new_user.id))
+    
     return render_template('register.html', title='Register', form=form)
 
 # Login Route
@@ -123,4 +149,6 @@ def view_posts():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    with app.app_context():
+        db.create_all()
+        app.run(debug=True, port=5000)
