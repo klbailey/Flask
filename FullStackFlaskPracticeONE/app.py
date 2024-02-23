@@ -62,13 +62,17 @@ posts = [
     {
         'author': 'Sansa Stark',
         'title': "I'm a slow learner, it's true. But I learn.",
-        'content': 'First post content',
+        'content': '''Sometimes when I'm trying to understand a person's motives, I play a little game... 
+            I assume the worst. What's the worst reason you'd have for turning me against my sister? That's 
+            what you do, isn't it, that's what you've always done - you turn family against family, you turn 
+            sister against sister; that's what you did to our mother and Aunt Lysa, and that's what you tried 
+            to do to us. ''',
         'datePosted': 'February 22, 2024'
     },
     {
         'author': 'Jon Snow',
-        'title': 'Winter is coming',
-        'content': 'Second post content',
+        'title': "Winter is coming",
+        'content': "We know what's coming with it. We can learn to live with the wildlings, or we can add them to the army of the dead.",
         'datePosted': 'February 23, 2024'
     }
 ]
