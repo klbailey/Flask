@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import InputRequired, Length, Email, EqualTo
+from flask_wtf.file import FileField, FileAllowed
 
 # Create an app that takes in your first name, last name, 
 # username, e-mail and a password via form submission.
@@ -33,6 +34,7 @@ class UpdateAccountForm(FlaskForm):
     lastName = StringField('Last Name', validators=[InputRequired()])
     username = StringField('Username', validators=[InputRequired(), Length(min=2, max=15)])
     email = StringField('Email', validators=[InputRequired(), Email()])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png', 'jpeg'])])
     # password = PasswordField('Password', validators=[InputRequired()])
     # confirm_password = PasswordField('Confirm Password', 
     #                                  validators=[InputRequired(), EqualTo('password')])

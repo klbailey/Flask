@@ -1,4 +1,4 @@
-<!-- Changes for current user -->
+<!-- Changes for current user ; file inputs on form need enctype="multipart/form-data-->
 {% extends 'layout.html' %}
 {% block content %}
     <div class="content-section">
@@ -28,6 +28,10 @@
             <div class="form-group">
                 {{ form.email.label(class="form-control-label") }}
                 {{ form.email(class="form-control form-control-lg") }}
+            </div>
+            <div class="form-group">
+                {{ form.picture.label(class="form-control-label") }}
+                {{ form.picture(class="form-control form-control-lg") }}
             </div>
             <div class="form-group">
                 {{ form.submit(class="btn btn-outline-info") }}

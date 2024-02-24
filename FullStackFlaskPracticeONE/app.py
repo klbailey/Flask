@@ -4,7 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 # import forms import RegistrationForm, LoginForm
 from forms import RegistrationForm, LoginForm, UpdateAccountForm
 from flask_login import logout_user, login_user, current_user, LoginManager, login_required
+import secrets
+from PIL import Image # to import 'image' modeul
 import os #to keep site.db in this project folder
+
 app = Flask(__name__)
 login_manager = LoginManager(app)
 
@@ -20,6 +23,10 @@ app.config['SECRET_KEY'] = 'secret'
 instance_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance')
 db_path = os.path.join(instance_path, 'site.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
+
+
+# Set config variable for upload folder
+app.config['UPLOAD_FOLDER'] = os.path.join('path', 'to', 'your', 'upload', 'folder')
 
 # Complete initialization (instance) create object of SQLAlchemy class; we have to provide our
 # appliation as a parameter to its constructor
@@ -197,6 +204,13 @@ def account():
         current_user.email = form.email.data
         db.session.commit()
 
+        # Handle profile picture update
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+
+        db.session.commit()
+
         flash('Your account has been updated!', 'success')
         return redirect(url_for('account'))
 
@@ -226,6 +240,12 @@ def update_account():
         current_user.email = form.email.data
         db.session.commit()
 
+        # Handle profile picture update
+        if form.picture.data:
+            picture_file = save_picture(form.picture.data)
+            current_user.image_file = picture_file
+        db.session.commit()
+
         flash('Your account has been updated!', 'success')
         return redirect(url_for('account'))
 
@@ -237,6 +257,23 @@ def update_account():
         form.email.data = current_user.email
 
     return render_template('update_account.html', title='Update Account', form=form)
+
+# /pip install Pillow
+def save_picture(form_picture):
+    # Generate a unique filename to avoid overwriting existing files
+    random_hex = secrets.token_hex(8)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(app.root_path, 'static/profile_pics', picture_fn)
+
+    # Resize the image before saving (optional, you can skip this step)
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+
+    i.save(picture_path)
+
+    return picture_fn
 
 if __name__ == '__main__':
     with app.app_context():
