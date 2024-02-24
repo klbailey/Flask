@@ -2,11 +2,9 @@ from datetime import datetime
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 # import forms import RegistrationForm, LoginForm
-from forms import RegistrationForm, LoginForm
-from flask_login import logout_user, login_user, current_user
-from flask_login import LoginManager
-import os
-
+from forms import RegistrationForm, LoginForm, UpdateAccountForm
+from flask_login import logout_user, login_user, current_user, LoginManager, login_required
+import os #to keep site.db in this project folder
 app = Flask(__name__)
 login_manager = LoginManager(app)
 
@@ -184,6 +182,61 @@ def logout():
     logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
+
+# User can update on Account page, gets message, and it's saved to database
+@app.route('/account', methods=['GET', 'POST'])
+@login_required
+def account():
+    form = UpdateAccountForm()
+
+    if form.validate_on_submit():
+        # Update the user's account information in the database
+        current_user.firstName = form.firstName.data
+        current_user.lastName = form.lastName.data
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+
+    elif request.method == 'GET':
+        # Pre-fill the form with the current user's information
+        form.firstName.data = current_user.firstName
+        form.lastName.data = current_user.lastName
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+
+    # image and concatenate current user image
+    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+
+    return render_template('account.html', title='Account', image_file=image_file, form=form)
+
+# Update Account Route
+@app.route('/update_account', methods=['GET', 'POST'])
+@login_required
+def update_account():
+    form = UpdateAccountForm()
+
+    if form.validate_on_submit():
+        # Update the user's account information in the database
+        current_user.firstName = form.firstName.data
+        current_user.lastName = form.lastName.data
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+
+        flash('Your account has been updated!', 'success')
+        return redirect(url_for('account'))
+
+    elif request.method == 'GET':
+        # Pre-fill the form with the current user's information
+        form.firstName.data = current_user.firstName
+        form.lastName.data = current_user.lastName
+        form.username.data = current_user.username
+        form.email.data = current_user.email
+
+    return render_template('update_account.html', title='Update Account', form=form)
 
 if __name__ == '__main__':
     with app.app_context():

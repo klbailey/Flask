@@ -25,3 +25,15 @@ class LoginForm(FlaskForm):
     # Boolean field (True or False)
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+# User can update account 
+class UpdateAccountForm(FlaskForm):
+    # Form fields string field with validators(required/min and max amount)
+    firstName = StringField('First Name', validators=[InputRequired()])
+    lastName = StringField('Last Name', validators=[InputRequired()])
+    username = StringField('Username', validators=[InputRequired(), Length(min=2, max=15)])
+    email = StringField('Email', validators=[InputRequired(), Email()])
+    # password = PasswordField('Password', validators=[InputRequired()])
+    # confirm_password = PasswordField('Confirm Password', 
+    #                                  validators=[InputRequired(), EqualTo('password')])
+    submit = SubmitField('Update')
