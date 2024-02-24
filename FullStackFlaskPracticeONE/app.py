@@ -121,17 +121,20 @@ def home():
 
     # Instantiate the PostForm
     post_form = PostForm()
-    if post_form.validate_on_submit():
-        # Create a new Post instance with data from the form
-        new_post = Post(
-            title=post_form.title.data,
-            content=post_form.content.data,
-            author=current_user  # Assuming the current user is logged in
-        )
-        db.session.add(new_post)
-        db.session.commit()
 
-        flash('Your post has been created!', 'success')
+     # Only allow the form to be displayed for logged-in users
+    if current_user.is_authenticated:
+        if post_form.validate_on_submit():
+            # Create a new Post instance with data from the form
+            new_post = Post(
+                title=post_form.title.data,
+                content=post_form.content.data,
+                author=current_user  # Assuming the current user is logged in
+            )
+            db.session.add(new_post)
+            db.session.commit()
+
+            flash('Your post has been created!', 'success')
 
     # Retrieve the latest posts from the database
     posts = Post.query.order_by(Post.datePosted.desc()).all()

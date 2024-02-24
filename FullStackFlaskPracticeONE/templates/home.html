@@ -1,46 +1,49 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-  {% if new_user %}
-    <h2>Newly Registered User:</h2>
-    <p>
-      First Name: {{ new_user.firstName }}<br>
-      Last Name: {{ new_user.lastName }}<br>
-      Username: {{ new_user.username }}<br>
-      Email: {{ new_user.email }}<br>
-      Password: {{ new_user.password }}<br>
-    </p>
-  {% endif %}
+{% if new_user %}
+<h2>Newly Registered User:</h2>
+<p>
+  First Name: {{ new_user.firstName }}<br>
+  Last Name: {{ new_user.lastName }}<br>
+  Username: {{ new_user.username }}<br>
+  Email: {{ new_user.email }}<br>
+  Password: {{ new_user.password }}<br>
+</p>
+{% endif %}
 
-  <!-- NEW POST Ensure that the form is always rendered -->
-  <h2>Create a New Post:</h2>
-  <form method="POST" action="{{ url_for('home') }}">
-    {{ post_form.hidden_tag() }}
-    <div>
-      {{ post_form.title.label }}
-      {{ post_form.title(class="form-control") }}
-    </div>
-    <div>
-      {{ post_form.content.label }}
-      {{ post_form.content(class="form-control") }}
-    </div>
-    <div>
-      {{ post_form.submit(class="btn btn-primary") }}
-    </div>
-  </form>
+<!-- NEW POST Ensure that the form is always rendered -->
+<h2>Create a New Post: <small style="font-size: 0.6em;">(Registration/Login Required to Post)</small></h2>
+<form method="POST" action="{{ url_for('create_post') }}">
+  {{ post_form.hidden_tag() }}
+  <div>
+    {{ post_form.title.label }}
+    {{ post_form.title(class="form-control") }}
+  </div>
+  <div>
+    {{ post_form.content.label }}
+    {{ post_form.content(class="form-control") }}
+  </div>
+  <div style="height: 20px;"></div> <!-- Add a blank line with 20px height -->
+  <div>
+    {{ post_form.submit(class="btn btn-primary") }}
+  </div>
+  <div style="height: 20px;"></div> <!-- Add a blank line with 20px height -->
+</form>
 
-  <h2>Recent Posts:</h2>
-  {% for post in posts %}
-    <article class="media content-section">
-      <div class="media-body">
-        <div class="article-metadata">
-          <img src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" class="rounded-circle account-img" style="height: 100px;">
-          <a class="mr-2" href="#">{{ post.author.username }}</a>
-          <small class="text-muted">{{ post.datePosted }}</small>
-        </div>
-        <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
-        <p class="article-content">{{ post.content }}</p>
-      </div>
-    </article>
-  {% endfor %}
+<h2>Recent Posts:</h2>
+{% for post in posts %}
+<article class="media content-section">
+  <div class="media-body">
+    <div class="article-metadata">
+      <img src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"
+        class="rounded-circle account-img" style="height: 100px;">
+      <a class="mr-2" href="#" style="font-size: 40px;">{{ post.author.username }}</a>
+      <small class="text-muted">{{ post.datePosted }}</small>
+    </div>
+    <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+    <p class="article-content">{{ post.content }}</p>
+  </div>
+</article>
+{% endfor %}
 {% endblock content %}
