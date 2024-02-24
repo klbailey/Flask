@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import InputRequired, Length, Email, EqualTo
 from flask_wtf.file import FileField, FileAllowed
 
@@ -39,3 +39,9 @@ class UpdateAccountForm(FlaskForm):
     # confirm_password = PasswordField('Confirm Password', 
     #                                  validators=[InputRequired(), EqualTo('password')])
     submit = SubmitField('Update')
+
+# New form to create post
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[InputRequired()])
+    content = TextAreaField('Content', validators=[InputRequired()])
+    submit = SubmitField('Post')

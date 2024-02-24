@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 # import forms import RegistrationForm, LoginForm
-from forms import RegistrationForm, LoginForm, UpdateAccountForm
+from forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flask_login import logout_user, login_user, current_user, LoginManager, login_required
 import secrets
 from PIL import Image # to import 'image' modeul
@@ -47,7 +47,7 @@ class User(db.Model):
     #post attribute has relationship to post model; backref like adding another column
     #when we have a post we can use author attribute to get user who created post
     #lazy defines when SQLAlchemy loads the data from the database in one go
-    posts = db.relationship('Post', backref='author', lazy=True)
+    posts = db.relationship('Post', backref='author_posts', lazy=True)
     # repr method how our object is printed whenever we print it out
     def __repr__(self):
         return f"User('{self.firstName}', '{self.lastName}', '{self.username}', '{self.email}', '{self.image_file}')"
@@ -76,6 +76,9 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     # id of user who authored post
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # Add the relationship to the User model to access user information
+    author = db.relationship('User', backref='author_posts', lazy=True)
+
     # repr method how our object is printed whenever we print it out
     def __repr__(self):
         return f"Post('{self.title}', '{self.datePosted}')"
@@ -115,7 +118,25 @@ def home():
     if new_user_id:
         # Retrieve the user from the database based on the ID
         new_user = User.query.get(new_user_id)
-    return render_template('home.html', posts=posts, new_user=new_user)
+
+    # Instantiate the PostForm
+    post_form = PostForm()
+    if post_form.validate_on_submit():
+        # Create a new Post instance with data from the form
+        new_post = Post(
+            title=post_form.title.data,
+            content=post_form.content.data,
+            author=current_user  # Assuming the current user is logged in
+        )
+        db.session.add(new_post)
+        db.session.commit()
+
+        flash('Your post has been created!', 'success')
+
+    # Retrieve the latest posts from the database
+    posts = Post.query.order_by(Post.datePosted.desc()).all()
+
+    return render_template('home.html', posts=posts, new_user=new_user, post_form=post_form)
 
 @app.route('/about')
 def about(): 
@@ -274,6 +295,19 @@ def save_picture(form_picture):
     i.save(picture_path)
 
     return picture_fn
+
+@app.route('/create_post', methods=['POST'])
+@login_required
+def create_post():
+    post_form = PostForm()
+
+    if post_form.validate_on_submit():
+        new_post = Post(title=post_form.title.data, content=post_form.content.data, author=current_user)
+        db.session.add(new_post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     with app.app_context():
