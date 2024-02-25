@@ -45,3 +45,9 @@ class PostForm(FlaskForm):
     title = StringField('Title', validators=[InputRequired()])
     content = TextAreaField('Content', validators=[InputRequired()])
     submit = SubmitField('Post')
+
+    
+class UpdatePasswordForm(FlaskForm):
+    new_password = PasswordField('New Password', validators=[InputRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[InputRequired(), EqualTo('new_password')])
+    submit = SubmitField('Update Password')

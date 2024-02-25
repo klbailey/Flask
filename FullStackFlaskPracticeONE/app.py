@@ -2,10 +2,12 @@ from datetime import datetime
 from flask import Flask, render_template, url_for, flash, redirect, request, abort
 from flask_sqlalchemy import SQLAlchemy
 # import forms import RegistrationForm, LoginForm
-from forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
+from forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm, UpdatePasswordForm
 from flask_login import logout_user, login_user, current_user, LoginManager, login_required
 import secrets
-from PIL import Image # to import 'image' modeul
+from PIL import Image # to import 'image' module
+# for password change
+from werkzeug.security import generate_password_hash, check_password_hash
 import os #to keep site.db in this project folder
 
 app = Flask(__name__)
@@ -63,6 +65,16 @@ class User(db.Model):
 
     def get_id(self):
         return str(self.id)
+    
+    password = db.Column(db.String(60), nullable=False)
+
+    def set_password(self, password):
+        self.password = password
+
+    def check_password(self, password):
+        print(f"Stored Password Hash: {self.password}")
+        return check_password_hash(self.password, password)
+
     
 # Add user loader function
 @login_manager.user_loader
@@ -218,6 +230,7 @@ def logout():
 @login_required
 def account():
     form = UpdateAccountForm()
+    update_password_form = UpdatePasswordForm()
 
     if form.validate_on_submit():
         # Update the user's account information in the database
@@ -235,7 +248,7 @@ def account():
         db.session.commit()
 
         flash('Your account has been updated!', 'success')
-        return redirect(url_for('account'))
+        return redirect(url_for('home'))
 
     elif request.method == 'GET':
         # Pre-fill the form with the current user's information
@@ -247,7 +260,7 @@ def account():
     # image and concatenate current user image
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
 
-    return render_template('account.html', title='Account', image_file=image_file, form=form)
+    return render_template('account.html', title='Account', image_file=image_file, form=form, update_password_form=update_password_form)
 
 # Update Account Route
 @app.route('/update_account', methods=['GET', 'POST'])
@@ -340,6 +353,20 @@ def edit_post(post_id):
     return render_template('edit_post.html', title='Edit Post', form=form, post=post)
 
 
+# Update Password Route
+@app.route('/update_password', methods=['GET', 'POST'])
+@login_required
+def update_password():
+    form = UpdatePasswordForm()
+
+    if form.validate_on_submit():
+        # Update the user's password in the database
+        current_user.set_password(form.new_password.data)
+        db.session.commit()
+        flash('Your password has been updated!', 'success')
+        return redirect(url_for('account'))
+
+    return render_template('update_password.html', title='Update Password', form=form)
 
 # Delete post
 @app.route('/delete_post/<int:post_id>', methods=['GET','POST'])
