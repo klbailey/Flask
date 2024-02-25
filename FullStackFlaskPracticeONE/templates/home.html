@@ -36,17 +36,23 @@
 <article class="media content-section" style="display: flex; align-items: center;">
   <div class="media-left">
     <img src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"
-        class="rounded-circle account-img" style="height: 100px;">
+      class="rounded-circle account-img" style="height: 100px;">
   </div>
   <div class="media-body">
     <div class="article-metadata">
-        <a class="mr-2" href="#" style="font-size: 20px;">{{ post.author.username }}</a>
-        <!-- code for only date not time -->
-        <small class="text-muted">{{ post.datePosted.strftime('%Y-%m-%d') }}</small>
+      <a class="mr-2" href="#" style="font-size: 20px;">{{ post.author.username }}</a>
+      <!-- code for only date not time -->
+      <small class="text-muted">{{ post.datePosted.strftime('%Y-%m-%d') }}</small>
     </div>
 
     <h2><a class="article-title" href="#">{{ post.title }}</a></h2>
     <p class="article-content">{{ post.content }}</p>
+    {% if current_user.is_authenticated and current_user.id == post.user_id %}
+    <div>
+      <a href="{{ url_for('edit_post', post_id=post.id) }}" class="btn-sm">Edit</a>
+      <a href="{{ url_for('delete_post', post_id=post.id) }}" class="btn-sm">Delete</a>
+    </div>
+    {% endif %}
   </div>
 </article>
 {% endfor %}

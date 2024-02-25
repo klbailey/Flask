@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Flask, render_template, url_for, flash, redirect, request
+from flask import Flask, render_template, url_for, flash, redirect, request, abort
 from flask_sqlalchemy import SQLAlchemy
 # import forms import RegistrationForm, LoginForm
 from forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
@@ -311,6 +311,53 @@ def create_post():
         flash('Your post has been created!', 'success')
 
     return redirect(url_for('home'))
+
+
+# Edit post
+@app.route('/edit_post/<int:post_id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(post_id):
+    post = Post.query.get_or_404(post_id)
+
+    # Check if the current user is the owner of the post
+    if current_user.id != post.user_id:
+        flash('You are not allowed to edit this post.', 'error')
+        return redirect(url_for('home'))
+
+    form = PostForm()
+
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Post updated successfully.', 'success')
+        return redirect(url_for('home'))
+
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+
+    return render_template('edit_post.html', title='Edit Post', form=form, post=post)
+
+
+
+# Delete post
+@app.route('/delete_post/<int:post_id>', methods=['GET','POST'])
+@login_required
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    
+    # Is current user is the owner of the post
+    if current_user.id != post.user_id:
+        flash('You are not allowed to delete this post.', 'error')
+        return redirect(url_for('home'))
+    if request.method == 'POST':
+        # Perform the deletion
+        db.session.delete(post)
+        db.session.commit()
+        flash('Post deleted successfully.', 'success')
+        return redirect(url_for('home'))
+    return render_template('delete_post.html', post=post)
 
 if __name__ == '__main__':
     with app.app_context():
