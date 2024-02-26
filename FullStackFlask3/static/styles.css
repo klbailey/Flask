@@ -1,4 +1,3 @@
-/* Replace all your existing CSS with the following */
 
 body {
     font-family: Arial, sans-serif;
@@ -15,7 +14,7 @@ form {
 }
 
 label {
-    display: block;
+    display: inline-block;
     margin-bottom: 8px;
 }
 

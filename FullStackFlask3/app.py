@@ -1,11 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+# migrate = Migrate(app, db)
 
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -25,6 +24,18 @@ def add_course():
 @app.route('/')
 def index():
     return render_template('home.html', courses=Course.query.all())
+
+# Route to delete 
+@app.route('/confirm_delete/<int:course_id>', methods=['GET', 'POST'])
+def confirm_delete(course_id):
+    course = Course.query.get_or_404(course_id)
+    print(course)  # Add this line to print the value of course
+    if request.method == 'POST':
+        # Handle the deletion here if the user clicks "Yes"
+        db.session.delete(course)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('confirm_delete.html', course=course, error=None)
 
 if __name__ == "__main__":
     with app.app_context():

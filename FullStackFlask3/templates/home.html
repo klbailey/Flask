@@ -5,11 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add a New Course</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-
+    <style>
+        /* Add custom styles here */
+        .custom-table {
+            border: 2px solid #000; /* Dark black border */
+            width: 100%; /* Make the table wider */
+        }
+    </style>
 </head>
-<body>  
+
+<body>
     <h1>Add a New Course</h1>
     <form action="{{ url_for('add_course') }}" method="post">
         <div class="form-group">
@@ -25,8 +33,8 @@
         </div>
     </form>
     <h2>Courses</h2>
-    <table class="table custom-table">
-        <table class="course-table">
+    <div class="table-responsive">
+        <table class="table custom-table">
             <thead class="course-header">
                 <tr>
                     <th class="column">Course Name</th>
@@ -35,7 +43,20 @@
                     <th class="column column-actions">Actions</th>
                 </tr>
             </thead>
+
             <tbody>
+                {% for course in courses %}
+                    <tr class="course-row">
+                        <td class="column">{{ course.name }}</td>
+                        <td class="column">{{ course.description }}</td>
+                        <td class="column">{{ course.date_added.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                        <td class="column column-actions">
+                            <!-- "Remove" link -->
+                            <a href="{{ url_for('confirm_delete', course_id=course.id) }}" class="remove-link">Remove</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            
                 <!-- Data row: How to be a ninja -->
                 <tr class="course-row" style="background-color: #ddd;">
                     <td class="column">{{ 'How to be a ninja' }}</td>
@@ -43,7 +64,7 @@
                     <td class="column">{{ 'Dec 1st 2013 5:34 PM' }}</td>
                     <td class="column column-actions">
                         <!-- "Remove" link -->
-                        <a href="#" class="remove-link">Remove</a>
+                        {% if not courses %}<a href="{{ url_for('confirm_delete', course_id=0) }}" class="remove-link">Remove</a>{% endif %}
                     </td>
                 </tr>
                 <!-- Data row: How to fly -->
@@ -53,7 +74,7 @@
                     <td class="column">{{ 'Nov 1st 2011 11:12 AM' }}</td>
                     <td class="column column-actions">
                         <!-- "Remove" link -->
-                        <a href="#" class="remove-link">Remove</a>
+                        {% if not courses %}<a href="{{ url_for('confirm_delete', course_id=0) }}" class="remove-link">Remove</a>{% endif %}
                     </td>
                 </tr>
                 <!-- Data row: energy in bootcamp -->
@@ -63,19 +84,20 @@
                     <td class="column">{{ 'Oct 1st 2013 11:11AM' }}</td>
                     <td class="column column-actions">
                         <!-- "Remove" link -->
-                        <a href="#" class="remove-link">Remove</a>
+                        {% if not courses %}<a href="{{ url_for('confirm_delete', course_id=0) }}" class="remove-link">Remove</a>{% endif %}
                     </td>
                 </tr>
                 <!-- Pair Program more Effectively -->
                 <tr class="course-row">
-                    <td class="column">{{ 'How to pair program more effectivey' }}</td>
+                    <td class="column">{{ 'How to pair program more effectively' }}</td>
                     <td class="column">{{ '' }}</td>
                     <td class="column">{{ 'Sept 28th 2011 10:15PM' }}</td>
                     <td class="column column-actions">
                         <!-- "Remove" link -->
-                        <a href="#" class="remove-link">Remove</a>
+                        {% if not courses %}<a href="{{ url_for('confirm_delete', course_id=0) }}" class="remove-link">Remove</a>{% endif %}
                     </td>
                 </tr>
+            
                 <!-- Blank grey row -->
                 <tr class="course-row" style="background-color: #ddd;">
                     <td class="column">{{ '' }}</td>
@@ -89,24 +111,13 @@
                     <td class="column">{{ '' }}</td>
                     <td class="column">{{ '' }}</td>
                     <td class="column">{{ '' }}</td>
-                </tr>
-                <!-- Data rows from your database -->
-                {% for course in courses %}
-                <tr class="course-row">
-                    <td class="column">{{ course.name }}</td>
-                    <td class="column">{{ course.description }}</td>
-                    <td class="column">{{ course.date_added.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-                    <td class="column column-actions">
-                        <!-- "Remove" link -->
-                        <a href="#" class="remove-link">Remove</a>
-                    </td>
-                </tr>
-                {% endfor %}
-
-
+                </tr>  
             </tbody>
+            
+
+            
         </table>
-    </table>
+    </div>
     <!-- Add Bootstrap JS and Popper.js scripts here -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
