@@ -49,13 +49,26 @@
     <p class="details"><strong>Name:</strong> {{ course.name }}</p>
     <p class="details"><strong>Description:</strong> {{ course.description }}</p>
     <p class="details"><strong>Date Added:</strong> {{ course.date_added.strftime('%b %d %Y %I:%M %p') }}</p><br>
-    <form action="{{ url_for('confirm_delete_dynamic', course_id=course.id) }}" method="post"
-        onsubmit="return confirm('Are you sure you want to delete this course?')">
+    <!--Form for submitting deletion request  -->
+    <form id="deleteForm" action="{{ url_for('confirm_delete_dynamic', course_id=course.id) }}" method="post" onsubmit="return confirmDelete()">
         <div class="button-container">        
-            <a href="{{ url_for('index') }}"><button class="btn">No</button></a>&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn" onclick="navigateNo()">No</button>&nbsp;&nbsp;&nbsp;
             <button class="button" type="submit">Yes! I want to delete this</button>
         </div>
     </form>
+    
+    <script>
+        function confirmDelete() {
+            // show dialog only when the user clicks "Yes" button
+            return confirm('Are you sure you want to delete this course?');
+        }
+    
+        function navigateNo() {
+            // Navigate to index route in app.py when the user clicks "No" button
+            window.location.href = "{{ url_for('index') }}";
+        }
+    </script>
+    
     {% else %}
     <p>Course not found.</p>
     <a href="{{ url_for('index') }}">Go back</a>

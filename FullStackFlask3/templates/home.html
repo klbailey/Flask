@@ -31,6 +31,7 @@
 
 <body>
     <h1>Add a New Course</h1>
+    <!-- Submit data to add_course route in app.py -->
     <form action="{{ url_for('add_course') }}" method="post">
         <div class="form-group">
             <label for="name">Name:</label>
@@ -60,6 +61,7 @@
                 <!-- Loop over courses and display dynamic rows -->
                 {% for course in courses %}
                     <tr class="course-row">
+                        <!-- Individual course rows -->
                         <td class="column">{{ course.name }}</td>
                         <td class="column">{{ course.description }}</td>
                         <td class="column">{{ course.date_added.strftime('%b %d %Y %I:%M %p') }}</td>
