@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a New Course</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .custom-table {
+            border: 2px solid #000; 
+            width: 100%; /
+        }
+        /* grey background */
+        .course-row:nth-child(even) {
+            background-color: #ddd; 
+        }
+        /* white background */
+        .course-row:nth-child(odd) {
+            background-color: #fff; 
+        }
+        /* vertical line */
+        .custom-table th,
+        .custom-table td {
+            border-right: 2px solid #000; 
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Add a New Course</h1>
+    <!-- Submit data to add_course route in app.py -->
+    <form action="{{ url_for('add_course') }}" method="post">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group-description">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+        </div>
+        <div class="button-container">
+            <button type="submit">Add</button>
+        </div>
+    </form>
+    <h2>Courses</h2>
+    <div class="table-responsive">
+        <table class="table custom-table">
+            <thead class="course-header">
+                <tr>
+                    <th class="column">Course Name</th>
+                    <th class="column">Description</th>
+                    <th class="column">Date Added</th>
+                    <th class="column column-actions">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <!-- Loop over courses and display dynamic rows -->
+                {% for course in courses %}
+                    <tr class="course-row">
+                        <!-- Individual course rows -->
+                        <td class="column">{{ course.name }}</td>
+                        <td class="column">{{ course.description }}</td>
+                        <td class="column">{{ course.date_added.strftime('%b %d %Y %I:%M %p') }}</td>
+                        <td class="column column-actions">
+                            <a href="{{ url_for('confirm_delete_dynamic', course_id=course.id) }}" class="remove-link">Remove</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- Add Bootstrap JS and Popper.js scripts here -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+
+</html>
