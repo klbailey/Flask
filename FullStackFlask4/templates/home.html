@@ -72,13 +72,25 @@
             </thead>
             <tbody>
                 {% for user in users %}
+                <!-- Inside the loop for listing users -->
                 <tr class="user-row">
                     <td>{{ user.id }}</td>
-                    <td>{{ user.name }}</td>
+                    <td><a href="{{ url_for('show_user', user_id=user.id) }}">{{ user.name }}</a></td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.date_added.strftime('%B %dth, %Y') }}</td>
-                    <td><!-- Add any actions you want here --></td>
+                    <td>
+                        <!-- Show link -->
+                        <a href="{{ url_for('show_user', user_id=user.id) }}">Show</a>
+
+                        <!-- Edit link -->
+                        <a href="{{ url_for('edit_user', user_id=user.id) }}">Edit</a>
+
+                        <!-- Delete link -->
+                        <a href="{{ url_for('confirm_delete_user', user_id=user.id) }}">Delete</a>
+                    </td>
                 </tr>
+
+
                 {% endfor %}
             </tbody>
         </table>
