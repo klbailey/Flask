@@ -5,20 +5,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Users Show</title>
+    <style>
+        body { margin-left: 35px;}
+        .show {
+            display: flex;
+        }
+    </style>
 </head>
 
 <body>
     <h1>User {{user.id}}</h1>
-    
+
     <p>Full Name: {{ user.name }}</p>
     <p>Email: {{ user.email }}</p>
     <p>Created At: {{ user.date_added.strftime('%B %dth, %Y') }}</p>
     <br>
-    <!-- Add an Edit link -->
-    <a href="{{ url_for('edit_user', user_id=user.id) }}">Edit</a><br><br>
-    <!-- Add Delete link -->
-    <a href="{{ url_for('confirm_delete_user', user_id=user.id) }}">Delete</a>
-    
+    <div class="show">
+        <!-- Add an Edit link -->
+        <a href="{{ url_for('edit_user', user_id=user.id) }}">Edit</a>&nbsp; &nbsp;
+        <!-- Add Delete link -->
+        <a href="{{ url_for('confirm_delete_user', user_id=user.id) }}">Delete</a>
+    </div>
 </body>
 
 </html>

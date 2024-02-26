@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm Delete User</title>
+    <!-- Add your styling here if needed -->
+</head>
+
+<body>
+    <h2>Confirm Deletion</h2>
+    <p>Are you sure you want to delete the user "{{ user.name }}"?</p>
+    
+    <!-- Links to confirm or cancel deletion -->
+    <a href="{{ url_for('delete_user', user_id=user.id) }}">Confirm Delete</a>
+    <a href="{{ url_for('index') }}">Cancel</a>
+</body>
+
+</html>
+
