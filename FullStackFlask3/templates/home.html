@@ -9,18 +9,22 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <style>
-        /* Add custom styles here */
         .custom-table {
-            border: 2px solid #000; /* Dark black border */
-            width: 100%; /* Make the table wider */
+            border: 2px solid #000; 
+            width: 100%; /
         }
-
+        /* grey background */
         .course-row:nth-child(even) {
-            background-color: #ddd; /* Light grey background for even rows */
+            background-color: #ddd; 
         }
-
+        /* white background */
         .course-row:nth-child(odd) {
-            background-color: #fff; /* White background for odd rows */
+            background-color: #fff; 
+        }
+        /* vertical line */
+        .custom-table th,
+        .custom-table td {
+            border-right: 2px solid #000; 
         }
     </style>
 </head>
