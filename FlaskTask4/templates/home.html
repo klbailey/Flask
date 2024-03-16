@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Home - Paws Rescue Center</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+</head>
+
+<body>
+    <h1 style='text-align:center'> Paws Rescue Center 🐾 </h1><br>
+    
+    <table class="pet-table">
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Bio</th>
+        </tr>
+        <tr>
+            <td><img src="{{ url_for('static', filename='frenchie.jpg') }}" alt="Frenchie Image">
+            <td>Nelly</td>
+            <td>5 weeks</td>
+            <td>I am a handsome dog of the superior breed.</td>
+        </tr>      
+        <tr>
+            <td><img src="{{ url_for('static', filename='engbulldog.jpg') }}" alt="English Image"></td>
+            <td>Ophelia</td>
+            <td>6 years</td>
+            <td>I am a champion.</td>
+        </tr>
+        <tr>
+            <td><img src="{{ url_for('static', filename='frbulldog.jpg') }}" alt="English Image"></td>
+            <td>Rodney</td>
+            <td>6 years</td>
+            <td>I am the best dog on the planet, ever.</td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
+
