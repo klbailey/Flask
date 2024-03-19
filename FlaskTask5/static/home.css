@@ -1,0 +1,36 @@
+
+body {
+    background-color: teal;
+
+}
+.pet-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pet-table th, .pet-table td {
+    padding: 12px; /* Increase the padding */
+    text-align: left;
+}
+
+.pet-table th {
+    background-color: teal;
+}
+
+.pet-table img {
+    max-width: 100px;
+    max-height: 100px;
+}
+/* Add horizontal line below table headings */
+.pet-table th {
+    border-bottom: 2px solid #ddd;
+}
+
+/* Add horizontal line below table rows */
+.pet-table tr:not(:first-child) {
+    border-top: 1px solid #ddd;
+}
+/* Add horizontal line after last entry */
+.pet-table tr:last-child {
+    border-bottom: 1px solid #ddd;
+}
