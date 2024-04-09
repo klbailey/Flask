@@ -1,0 +1,32 @@
+<!-- edit_recipe -->
+
+ {% extends 'base.html' %}
+
+{% block content %}
+  <h2>Edit Recipe</h2>
+  <form method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.title.label }} {{ form.title(class="form-control") }}
+    </div>
+    <div class="form-group">
+      {{ form.description.label }} {{ form.description(class="form-control") }}
+    </div>
+    <div class="form-group">
+      <label for="ingredients">Ingredients:</label>
+      <textarea id="ingredients" name="ingredients" class="form-control" rows="5">{{ recipe.ingredients }}</textarea>
+    </div>
+    <div class="form-group">
+      <label for="instructions">Instructions:</label>
+      <textarea id="instructions" name="instructions" class="form-control" rows="50">{{ recipe.instructions }}</textarea>
+    </div>
+    <div class="form-group">
+      {{ form.image.label }} {{ form.image(class="form-control-file") }}
+    </div>
+    <div class="form-group form-check">
+      {{ form.keep_image(class="form-check-input") }}
+      {{ form.keep_image.label(class="form-check-label") }}
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+{% endblock %} --> -->
