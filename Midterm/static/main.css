@@ -1,0 +1,133 @@
+/* static>main.css */
+body {
+    background: rgb(75, 166, 166);
+    color: #333333;
+    margin-top: 5rem;
+  }
+
+  header {
+    text-align: center; 
+    padding: 2rem; /* Add padding for better spacing */
+}
+
+nav ul {
+    list-style-type: none; /* Remove bullet points from navigation */
+    padding: 0;
+}
+
+nav ul li {
+    display: inline; /* Display nav items horizontally */
+    margin-right: 1rem; /* Add space btwn navigation items */
+}
+
+nav ul li a {
+    color: black; /* Change link color */
+    text-decoration: none; /* Remove underline from links */
+}
+
+main {
+    text-align: center; /* Center-align main content */
+    padding: 2rem; /* Add some padding for better spacing */
+    min-height: calc(100vh - 15rem); /* Set minimum height of main to fill the remaining space */
+}
+
+footer {
+    text-align: center; /* Center-align footer content */
+    padding: 1rem; /* Add some padding for better spacing */
+}
+label {
+    font-size: 1.2rem; /* Adjust the font size as needed */
+}
+
+/* Increase the height of input fields */
+input[type="text"],
+input[type="password"],
+textarea {
+    height: 2rem; /* Adjust the height as needed */
+    padding: 0.5rem; /* Add padding for better appearance */
+    font-size: 1.2rem; /* Adjust font size */
+}
+
+/* Increase the height of buttons */
+button {
+    height: 3rem; /* Adjust the height as needed */
+    padding: 0.5rem 1rem; /* Add padding for better appearance */
+    font-size: 1.2rem; /* Adjust font size */
+}
+/*   
+  h1, h2, h3, h4, h5, h6 {
+    color: #444444;
+
+  } */
+/*   
+  .bg-steel {
+    background-color: #5f788a;
+  }
+  
+  .site-header .navbar-nav .nav-link {
+    color: #cbd5db;
+  }
+  
+  .site-header .navbar-nav .nav-link:hover {
+    color: #ffffff;
+  }
+  
+  .site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+  }
+  
+  .content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+    margin-bottom: 20px;
+  }
+  
+  .article-title {
+    color: #444444;
+  }
+  
+  a.article-title:hover {
+    color: #428bca;
+    text-decoration: none;
+  }
+  
+  .article-content {
+    white-space: pre-line;
+  }
+  
+  .article-img {
+    height: 65px;
+    width: 65px;
+    margin-right: 16px;
+  }
+  
+  .article-metadata {
+    padding-bottom: 1px;
+    margin-bottom: 4px;
+    border-bottom: 1px solid #e3e3e3
+  }
+  
+  .article-metadata a:hover {
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .article-svg {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+  }
+  
+  .account-img {
+    height: 125px;
+    width: 125px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .account-heading {
+    font-size: 2.5rem;
+  }
+ */
