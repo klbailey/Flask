@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Appointment</title>
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="date"],
+        input[type="time"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+        }
+
+        button[type="button"] {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Add New Appointment</h1>
+        <form action="{{ url_for('add_appointment') }}" method="post" onsubmit="return validateForm()">
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="time">Time:</label>
+                <input type="time" id="time" name="time" required>
+            </div>
+            <div class="form-group">
+                <label for="patient_name">Patient Name:</label>
+                <input type="text" id="patient_name" name="patient_name" required>
+            </div>
+            <div class="form-group">
+                <label for="complaint">Complaint:</label>
+                <textarea id="complaint" name="complaint" rows="4" required></textarea>
+            </div>
+            <div class="button-container">
+                <button type="button" onclick="cancel()">Cancel</button>
+                <button type="submit">Add Appointment</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        function cancel() {
+            // Redirect to home page when cancel button is clicked
+            window.location.href = "/";
+        }
+
+        function validateForm() {
+            // Log form data to console for debugging
+            console.log("Date:", document.getElementById("date").value);
+            console.log("Time:", document.getElementById("time").value);
+            console.log("Patient Name:", document.getElementById("patient_name").value);
+            console.log("Complaint:", document.getElementById("complaint").value);
+            return true; // Submit the form
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Appointments</title>
+    <style>
+        .custom-table {
+            border: 2px solid #000;
+            width: 100%;
+        }
+
+        /* grey background */
+        .appointment-row:nth-child(even) {
+            background-color: #ddd;
+        }
+
+        /* white background */
+        .appointment-row:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        /* vertical line */
+        .custom-table th,
+        .custom-table td {
+            border-right: 2px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Doctor's Appointment</h1>
+        
+
+        <script>
+            // Prompt the user for their name upon page load
+            window.onload = function () {
+                var username = prompt("Please enter your name:");
+                if (username) {
+                    // Save the user's name to session
+                    fetch('/save_username', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ username: username })
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log("Username saved successfully");
+                        } else {
+                            console.error("Failed to save username");
+                        }
+                    });
+                }
+            };
+        </script>
+
+        <!-- Table to display appointments -->
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Patient Name</th>
+                    <th>Complaint</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tbody>
+                    {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment.date }}</td>
+                        <td>{{ appointment.time }}</td>
+                        <td>{{ appointment.patient_name }}</td>
+                        <td>{{ appointment.complaint }}</td>
+                        <td>
+                            <form action="{{ url_for('delete_appointment', appointment_id=appointment.id) }}" method="post">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </tbody>
+        </table>
+
+        <!-- Add New Appointment button -->
+        <button onclick="window.location.href='/add_appointment.html'">Add New Appointment</button>
+    </div>
+</body>
+
+</html>
